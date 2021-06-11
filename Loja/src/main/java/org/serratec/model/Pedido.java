@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import org.serratec.enums.StatusPedido;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -26,7 +28,7 @@ public class Pedido {
 	private String codigo;
 	private Double valor;
 	private LocalDate dataPedido;
-	private String status;
+	private StatusPedido status;
 
 	@ManyToOne
 	private Cliente cliente;
@@ -75,11 +77,21 @@ public class Pedido {
 		this.dataPedido = dataPedido;
 	}
 
-	public String getStatus() {
+	
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
+	public StatusPedido getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(StatusPedido status) {
 		this.status = status;
 	}
 
