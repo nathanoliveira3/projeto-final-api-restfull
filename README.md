@@ -3,7 +3,7 @@ Repositório para o trabalho final da disciplina API Restful da Residência em S
 
 ## Seu grupo deve criar um aplicativo de E-Commerce atendendo os seguintes requisitos:
 
-[] 01 - Utilizar um sistema de login.(JWT)
+[x] 01 - Utilizar um sistema de login.(JWT)
 [] 02 - Um Cliente poderá se cadastrar livremente.
 [] 03 - Para o cadastro de cliente deverá informar os dados mostrados nas tabelas abaixo. 
 [] 04 - O endereço deverá ser validado através da API Via Cep.
