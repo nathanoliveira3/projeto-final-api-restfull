@@ -13,7 +13,7 @@ Repositório para o trabalho final da disciplina API Restful da Residência em S
 - [x] 08 - Criar um novo Pedido  
 - 09 - Editar um pedido  que não esteja com status de finalizado.
 - 10 - Finalizar um pedido, alterar seu status para finalizado. Ao finalizar o pedido enviar e-mail para o cliente informando data de entrega, produtos, quantidades e valor final do pedido.
-- 11 - Visualizar todas as categorias ou uma específica pelo nome.
+- [x] 11 - Visualizar todas as categorias ou uma específica pelo nome.
 - 12 - Visualizar todos os produtos ou um específico pelo nome.
 
 ## Recursos que devem estar disponíveis sem o usuário estar logado no sistema:
