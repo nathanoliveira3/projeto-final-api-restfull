@@ -40,7 +40,7 @@ Repositório para o trabalho final da disciplina API Restful da Residência em S
  
 - Criar uma opção de esqueci minha senha com envio de um código de verificação para o e-mail e posterior verificação se esse código pertence ao cliente.
 
-##Regras: 
+## Regras: 
 
 - Ser feito em grupo
 - Utilizar GIT
