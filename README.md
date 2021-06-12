@@ -14,19 +14,19 @@ Repositório para o trabalho final da disciplina API Restful da Residência em S
 - 09 - Editar um pedido  que não esteja com status de finalizado.
 - 10 - Finalizar um pedido, alterar seu status para finalizado. Ao finalizar o pedido enviar e-mail para o cliente informando data de entrega, produtos, quantidades e valor final do pedido.
 - [x] 11 - Visualizar todas as categorias ou uma específica pelo nome.
-- 12 - Visualizar todos os produtos ou um específico pelo nome.
+- [x] 12 - Visualizar todos os produtos ou um específico pelo nome.
 
 ## Recursos que devem estar disponíveis sem o usuário estar logado no sistema:
 
-- Visualizar todas as categorias ou uma específica pelo nome.
-- Criar uma nova categoria.
-- Editar uma categoria.
-- Deletar uma categoria
-- Visualizar todos os produtos ou um específico pelo nome.
+- [x] Visualizar todas as categorias ou uma específica pelo nome.
+- [x] Criar uma nova categoria.
+- [x] Editar uma categoria.
+- [x] Deletar uma categoria
+- [x] Visualizar todos os produtos ou um específico pelo nome.
 - Criar um novo produto (Com imagem).
-- Editar um produto.
-- Deletar um produto.
-- Visualizar todos os pedidos.
+- [x] Editar um produto.
+- [x] Deletar um produto.
+- [x] Visualizar todos os pedidos.
 - Excluir algum pedido.
 
 ## Observações:
