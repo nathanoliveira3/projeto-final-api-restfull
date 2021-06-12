@@ -23,7 +23,7 @@ public class Carrinho {
 	@ManyToOne
 	private Cliente cliente;
 
-	@ManyToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "carrinho", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<CarrinhoProduto> produtos = new ArrayList<>();
 

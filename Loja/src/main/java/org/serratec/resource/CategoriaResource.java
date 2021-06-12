@@ -38,7 +38,7 @@ public class CategoriaResource {
     		return  new ResponseEntity<>(categoria, HttpStatus.OK);
     }
 
-    @PostMapping("/categorias/add")
+    @PostMapping("/categoria/add")
     public void postCategoria(@RequestBody Categoria nova) {
         categoriaRepository.save(nova);
     }

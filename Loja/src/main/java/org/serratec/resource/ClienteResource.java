@@ -24,10 +24,10 @@ public class ClienteResource {
 	private ClienteRepository clienteRepository;
 	
 	@PostMapping("/cliente")
-	public ResponseEntity<?> postCliente(@Validated @RequestBody Cliente cliente){
+	public ResponseEntity<?> postCliente(@Validated @RequestBody ClienteCadastroDTO dto){
 		
 		try {
-			
+			Cliente cliente = dto.toCliente();
 			clienteRepository.save(cliente);
 			return new ResponseEntity<>("Cliente cadastrado com Sucesso", HttpStatus.OK);
 			

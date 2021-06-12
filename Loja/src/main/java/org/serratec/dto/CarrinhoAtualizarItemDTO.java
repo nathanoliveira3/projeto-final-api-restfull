@@ -25,7 +25,7 @@ public class CarrinhoAtualizarItemDTO {
 		Carrinho carrinho = carrinhoRepository.findByCliente(cliente)
 				.orElse(new Carrinho());				
 
-		carrinho.setCliente(cliente);
+		carrinho.setCliente(cliente);		
 		
 		return carrinho;
 	}
@@ -40,6 +40,7 @@ public class CarrinhoAtualizarItemDTO {
 				.orElseThrow(() -> new ProdutoException("Código do livro inexistente."));
 
 		produtoCarrinho.setProduto(produto);
+		produtoCarrinho.setPreco(produto.getPreco() * this.quantidade);
 
 		return produtoCarrinho;
 	}

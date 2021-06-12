@@ -1,16 +1,12 @@
 package org.serratec.model;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Produto {
@@ -28,10 +24,6 @@ public class Produto {
 
 	@ManyToOne
 	private Categoria categoria;
-	
-	@ManyToMany(mappedBy = "produtos")
-	@JsonIgnore
-	private List<Pedido> pedidos;
 
 	public Long getId() {
 		return id;
@@ -89,15 +81,7 @@ public class Produto {
 		this.categoria = categoria;
 	}
 
-	public List<Pedido> getPedidos() {
-		return pedidos;
-	}
-
-	public void setPedidos(List<Pedido> pedidos) {
-		this.pedidos = pedidos;
-	}
-
-	public String getCodigo() {
+		public String getCodigo() {
 		return codigo;
 	}
 

@@ -3,6 +3,7 @@ package org.serratec.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,7 +32,7 @@ public class Cliente {
 	private String telefone;
 	private LocalDate dataNascimento;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
 	
 	@OneToMany(mappedBy = "cliente")
