@@ -1,48 +1,47 @@
 package org.serratec.dto;
 
 import org.serratec.exceptions.ClienteException;
-import org.serratec.exceptions.PedidoException;
 import org.serratec.exceptions.ProdutoException;
+import org.serratec.model.Carrinho;
+import org.serratec.model.CarrinhoProduto;
 import org.serratec.model.Cliente;
-import org.serratec.model.Pedido;
 import org.serratec.model.Produto;
-import org.serratec.model.ProdutoPedido;
+import org.serratec.repository.CarrinhoRepository;
 import org.serratec.repository.ClienteRepository;
-import org.serratec.repository.PedidoRepository;
 import org.serratec.repository.ProdutoRepository;
 
-public class PedidoAtualizarItemDTO {
+public class CarrinhoAtualizarItemDTO {
 
 	private String cpf;
 	private String codigoProduto;
 	private Integer quantidade;
 	
-	public Pedido toPedido(ClienteRepository clienteRepository, PedidoRepository pedidoRepository)
-			throws PedidoException, ClienteException {
+	public Carrinho toCarrinho(ClienteRepository clienteRepository, CarrinhoRepository carrinhoRepository)
+			throws ClienteException {
 
 		Cliente cliente = clienteRepository.findByCpf(this.cpf)
 				.orElseThrow(() -> new ClienteException("Cliente não cadastrado."));
 
-		Pedido pedido = pedidoRepository.findByCliente(cliente)
-				.orElse(new Pedido());				
+		Carrinho carrinho = carrinhoRepository.findByCliente(cliente)
+				.orElse(new Carrinho());				
 
-		pedido.setCliente(cliente);
+		carrinho.setCliente(cliente);
 		
-		return pedido;
+		return carrinho;
 	}
 	
-	public ProdutoPedido toProduto(ProdutoRepository produtoRepository) throws ProdutoException {
+	public CarrinhoProduto toProduto(ProdutoRepository produtoRepository) throws ProdutoException {
 
-		ProdutoPedido produtoPedido = new ProdutoPedido();
+		CarrinhoProduto produtoCarrinho = new CarrinhoProduto();
 
-		produtoPedido.setQuantidade(this.quantidade);
+		produtoCarrinho.setQuantidade(this.quantidade);
 
 		Produto produto = produtoRepository.findByCodigo(this.codigoProduto)
 				.orElseThrow(() -> new ProdutoException("Código do livro inexistente."));
 
-		produtoPedido.setProduto(produto);
+		produtoCarrinho.setProduto(produto);
 
-		return produtoPedido;
+		return produtoCarrinho;
 	}
 
 

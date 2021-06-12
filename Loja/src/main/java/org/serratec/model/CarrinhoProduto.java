@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class ProdutoPedido {
+public class CarrinhoProduto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +17,7 @@ public class ProdutoPedido {
 	private Produto produto;
 
 	@ManyToOne
-	private Pedido pedido;
+	private Carrinho carrinho;
 
 	private Integer quantidade;
 
@@ -39,12 +39,12 @@ public class ProdutoPedido {
 		this.produto = produto;
 	}
 
-	public Pedido getPedido() {
-		return pedido;
+	public Carrinho getCarrinho() {
+		return carrinho;
 	}
 
-	public void setPedido(Pedido pedido) {
-		this.pedido = pedido;
+	public void setCarrinho(Carrinho carrinho) {
+		this.carrinho = carrinho;
 	}
 
 	public Integer getQuantidade() {

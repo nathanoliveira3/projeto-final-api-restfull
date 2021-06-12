@@ -2,16 +2,16 @@ package org.serratec.dto;
 
 import org.serratec.exceptions.ProdutoException;
 import org.serratec.model.Produto;
-import org.serratec.model.ProdutoPedido;
+import org.serratec.model.CarrinhoProduto;
 import org.serratec.repository.ProdutoRepository;
 
-public class PedidoProdutoCadastroDTO {
+public class CarrinhoProdutoCadastroDTO {
 
 	private String codigo;
 	private Integer quantidade;
 
-	public ProdutoPedido toProdutoPedido(ProdutoRepository produtoRepository) throws ProdutoException {
-		ProdutoPedido produtoPedido = new ProdutoPedido();
+	public CarrinhoProduto toCarrinhoProduto(ProdutoRepository produtoRepository) throws ProdutoException {
+		CarrinhoProduto produtoPedido = new CarrinhoProduto();
 		produtoPedido.setQuantidade(this.quantidade);
 
 		Produto produto = produtoRepository.findByCodigo(this.codigo)
