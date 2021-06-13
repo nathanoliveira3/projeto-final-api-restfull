@@ -23,7 +23,7 @@ Repositório para o trabalho final da disciplina API Restful da Residência em S
 - [x] Editar uma categoria.
 - [x] Deletar uma categoria
 - [x] Visualizar todos os produtos ou um específico pelo nome.
-- Criar um novo produto (Com imagem).
+- [x] Criar um novo produto (Com imagem).
 - [x] Editar um produto.
 - [x] Deletar um produto.
 - [x] Visualizar todos os pedidos.
