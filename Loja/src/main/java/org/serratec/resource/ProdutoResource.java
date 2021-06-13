@@ -1,8 +1,14 @@
 package org.serratec.resource;
 
+import java.time.LocalDate;
 import java.util.List;
 
+import org.serratec.dto.produto.ProdutoAtualizarDTO;
+import org.serratec.dto.produto.ProdutoCadastrarDTO;
+import org.serratec.dto.produto.ProdutoDeletarDTO;
+import org.serratec.dto.produto.ProdutoDetalheDTO;
 import org.serratec.exceptions.ProdutoException;
+import org.serratec.model.Categoria;
 import org.serratec.model.Produto;
 import org.serratec.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,8 +30,9 @@ public class ProdutoResource {
 	private ProdutoRepository produtoRepository;
 	
 	@PostMapping("/produto")
-	public ResponseEntity<?> postProduto(@Validated @RequestBody Produto produto){
+	public ResponseEntity<?> postProduto(@Validated @RequestBody ProdutoCadastrarDTO dto) throws ProdutoException{
 		
+		Produto produto = dto.toProduto();
 		produtoRepository.save(produto);
 		return new ResponseEntity<>("Produto cadastrado com Sucesso", HttpStatus.OK);
 	}
@@ -46,32 +52,40 @@ public class ProdutoResource {
     		return  new ResponseEntity<>(produto, HttpStatus.OK);
     }
 	
-	@GetMapping("/produto/por-codigo/{codigo}")
-	public ResponseEntity<?> getProdutoPorCodigo(@PathVariable String codigo) throws ProdutoException{
+	@GetMapping("/produto/por-codigo")
+	public ResponseEntity<?> getProdutoPorCodigo(@Validated @RequestBody ProdutoDetalheDTO dto) throws ProdutoException{
 		
-		Produto produto = produtoRepository.findByCodigo(codigo)
+		Produto produto = produtoRepository.findByCodigo(dto.getCodigo())
 				.orElseThrow(() -> new ProdutoException("Produto não cadastrado"));
 		
 		return new ResponseEntity<>(produto, HttpStatus.OK);
 	}
 	
    
-    @PutMapping("/produto/editar/{codigo}")
-    public void putProduto(@PathVariable String codigo, @RequestBody Produto produtoModificado) throws ProdutoException {
-        Produto produto = produtoRepository.findByCodigo(codigo)
-        		.orElseThrow(() -> new ProdutoException("Produto não cadastrada."));        
-
-        produto.setNome(produtoModificado.getNome());
-        produto.setDescricao(produtoModificado.getDescricao());
-        
-        produtoRepository.save(produto);
+    @PutMapping("/produto/editar")
+    public ResponseEntity<?> putProduto(@RequestBody ProdutoAtualizarDTO dto) throws ProdutoException {
+		
+		Produto produto = produtoRepository.findByCodigo(dto.getCodigo()).orElseThrow(() -> new ProdutoException("Produto não encontrado."));
+		
+		produto.setDataCadastro(LocalDate.now());
+		produto.setNome(dto.getNome());
+		produto.setPreco(dto.getPreco());
+		produto.setEstoque(dto.getQuantidade());
+		produto.setCategoria(new Categoria());
+		
+		produtoRepository.save(produto);
+		
+		return new ResponseEntity<>("Produto alterado com sucesso!", HttpStatus.OK);
     } 
     
-    @DeleteMapping("/produto/delete/{codigo}")
-    public void deleteProduto(@PathVariable String codigo) throws ProdutoException {
-        Produto produto = produtoRepository.findByCodigo(codigo)
-        		.orElseThrow(() -> new ProdutoException("Produto não cadastrada."));    
+    @DeleteMapping("/produto/delete")
+    public ResponseEntity<?> deleteProduto(@RequestBody ProdutoDeletarDTO dto) throws ProdutoException {
+        Produto produto = produtoRepository.findByCodigo(dto.getCodigo())
+        		.orElseThrow(() -> new ProdutoException("Produto não cadastrado."));    
 
         produtoRepository.delete(produto);
+        
+       return new ResponseEntity<>("Produto deletado com sucesso!", HttpStatus.OK);
     }
+    
 }
