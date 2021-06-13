@@ -47,8 +47,8 @@ public class PedidoResource {
 			if (pedido.getStatus().equals(StatusPedido.FINALIZADO))
 				emailService.enviar("Pedido finalizado com sucesso!",
 						"Data de Entrega: " + LocalDate.now().plusDays(15) + 
-						"Produtos: " + pedido.getProdutos(), 
-						pedido.getCliente().getEmail(), 
+						"\nProdutos: " + pedido.getProdutos(), 
+						pedido.getCliente().getEmail(),
 						"Capim Canela E-commerce");
 				
 				
