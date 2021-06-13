@@ -1,15 +1,17 @@
 package org.serratec.model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,7 +25,9 @@ public class Carrinho {
 	@ManyToOne
 	private Cliente cliente;
 
-	@ManyToMany(mappedBy = "carrinho", cascade = CascadeType.ALL)
+	private String codigo;
+
+	@OneToMany(mappedBy = "carrinho", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<CarrinhoProduto> produtos = new ArrayList<>();
 
@@ -49,15 +53,42 @@ public class Carrinho {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}	
+
+	public String getCodigo() {
+		return codigo;
 	}
 
-	public Double getValorTotal() {
-		Double valorTotal = 0.00;
-		for (CarrinhoProduto p : produtos) {
-			valorTotal += p.getPreco();
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
+	public String gerarProtocolo() {
+		if (this.codigo == null || this.codigo.isBlank()) {
+
+			LocalDateTime agora = LocalDateTime.now();
+			Random randomico = new Random();
+			String codigo = "v";
+			codigo += agora.getYear();
+			codigo += agora.getMonth();
+			codigo += agora.getDayOfMonth();
+			codigo += agora.getHour();
+			codigo += agora.getMinute();
+			codigo += agora.getSecond();
+
+			for (int i = 0; i < 10; i++) {
+				codigo += randomico.nextInt(10);
+			}
+			this.codigo = codigo;
 		}
-
-		return valorTotal;
+		return this.codigo;
 	}
-
+	
+	public Double getValorTotal() {
+		Double valor = 0.00;
+		for(CarrinhoProduto p : produtos) {
+			valor += (p.getPreco() * p.getQuantidade());
+		}
+		return valor;		
+	}
 }
