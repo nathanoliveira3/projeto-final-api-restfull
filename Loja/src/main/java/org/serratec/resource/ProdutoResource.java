@@ -1,7 +1,27 @@
 package org.serratec.resource;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.serratec.dto.produto.ProdutoAtualizarDTO;
+import org.serratec.dto.produto.ProdutoCadastrarDTO;
+import org.serratec.dto.produto.ProdutoDeletarDTO;
+import org.serratec.dto.produto.ProdutoDetalheDTO;
+import org.serratec.exceptions.ProdutoException;
+import org.serratec.model.Categoria;
+import org.serratec.model.Produto;
 import org.serratec.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -10,7 +30,7 @@ public class ProdutoResource {
 	@Autowired
 	private ProdutoRepository produtoRepository;
 	
-	/*@PostMapping("/produto")
+	@PostMapping("/produto")
 	public ResponseEntity<?> postProduto(@Validated @RequestBody ProdutoCadastrarDTO dto) throws ProdutoException{
 		
 		Produto produto = dto.toProduto();
@@ -23,12 +43,13 @@ public class ProdutoResource {
        
     	if(nome == null) {
     		List<Produto> produtos = produtoRepository.findAll();
+    		List<ProdutoDetalheDTO> todosDTO = produtos.stream().map(obj -> new ProdutoDetalheDTO(obj)).collect(Collectors.toList());
 
-            return new ResponseEntity<>(produtos, HttpStatus.OK);
+            return new ResponseEntity<>(todosDTO, HttpStatus.OK);
     	}
     	
     	Produto produto = produtoRepository.findByNome(nome)
-    			.orElseThrow(() -> new ProdutoException("Produto não cadastrada."));
+    			.orElseThrow(() -> new ProdutoException("Produto não cadastrado."));
         
     		return  new ResponseEntity<>(produto, HttpStatus.OK);
     }
@@ -67,6 +88,6 @@ public class ProdutoResource {
         produtoRepository.delete(produto);
         
        return new ResponseEntity<>("Produto deletado com sucesso!", HttpStatus.OK);
-    }*/
+    }
     
 }
