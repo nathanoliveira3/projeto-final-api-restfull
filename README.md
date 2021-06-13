@@ -31,12 +31,12 @@ Repositório para o trabalho final da disciplina API Restful da Residência em S
 
 ## Observações:
 
-- CPF deve ser válido.
-- Produto não poderá ter valores negativos
+- [x] CPF deve ser válido.
+- [x] Produto não poderá ter valores negativos
 - Todas as exceptions devem ser tratadas
 - A Api deverá utilizar como documentação a ferramenta do Swagger.
 
-## Desafío Extra (Opcional):
+## Desafio Extra (Opcional):
  
 - Criar uma opção de esqueci minha senha com envio de um código de verificação para o e-mail e posterior verificação se esse código pertence ao cliente.
 
