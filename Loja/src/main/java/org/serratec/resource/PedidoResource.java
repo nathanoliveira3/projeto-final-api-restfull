@@ -2,6 +2,7 @@ package org.serratec.resource;
 
 import java.util.List;
 
+import org.serratec.dto.StatusPedidoAlterarDTO;
 import org.serratec.exceptions.PedidoException;
 import org.serratec.model.Pedido;
 import org.serratec.repository.PedidoRepository;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,16 +27,16 @@ public class PedidoResource {
 		return new ResponseEntity<>(pedidos, HttpStatus.OK);
 	}
 
-	@PutMapping("/pedido/status/{codigo}")
-	public ResponseEntity<?> putStatus(@RequestBody Pedido pedidoAlterado, @PathVariable String codigo)
-			throws PedidoException {
-		Pedido pedido = pedidoRepository.findByCodigo(codigo)
-				.orElseThrow(() -> new PedidoException("Pedido não encontrado."));
-
-		pedido.setStatus(pedidoAlterado.getStatus());
-
-		pedidoRepository.save(pedido);
-
-		return new ResponseEntity<>("Pedido alterado com sucesso", HttpStatus.OK);
+	@PutMapping("/pedido/statusPedido")
+	public ResponseEntity<?> putStatus(@RequestBody StatusPedidoAlterarDTO dto){	
+		
+		Pedido pedido;
+		try {
+			pedido = dto.toPedido(pedidoRepository);
+			pedidoRepository.save(pedido);
+			return new ResponseEntity<>("Pedido alterado com sucesso", HttpStatus.OK);
+		} catch (PedidoException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}		
 	}
 }

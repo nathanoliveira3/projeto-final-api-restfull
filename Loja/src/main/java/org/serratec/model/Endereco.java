@@ -1,43 +1,26 @@
 package org.serratec.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+
+import org.serratec.enums.Estado;
 
 @Entity
 public class Endereco {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long id;	
 	
-	@NotNull
-	@NotBlank
-	@Column(length = 8)
 	private String cep;
-
-	@NotNull
-	@NotBlank
-	private String rua;
-
-	@NotNull
-	@NotBlank
-	private String bairro;
-	
-	@NotNull
-	@NotBlank
-	private String cidade;
-
-	@NotNull
-	@NotBlank
-	private String numero;
-	
+	private String rua;	
+	private String bairro;	
+	private String cidade;	
+	private String numero;	
 	private String complemento;
 	
 	@Enumerated(EnumType.ORDINAL)

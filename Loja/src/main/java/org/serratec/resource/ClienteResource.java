@@ -26,16 +26,9 @@ public class ClienteResource {
 	@PostMapping("/cliente")
 	public ResponseEntity<?> postCliente(@Validated @RequestBody ClienteCadastroDTO dto){
 		
-		try {
-			Cliente cliente = dto.toCliente();
-			clienteRepository.save(cliente);
-			return new ResponseEntity<>("Cliente cadastrado com Sucesso", HttpStatus.OK);
-			
-		}catch(Exception e) {
-			
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-			
-		}
+		Cliente cliente = dto.toCliente();
+		clienteRepository.save(cliente);
+		return new ResponseEntity<>("Cliente cadastrado com Sucesso", HttpStatus.OK);
 	}
 	
 	@GetMapping("/cliente")

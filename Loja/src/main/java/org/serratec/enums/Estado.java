@@ -1,4 +1,4 @@
-package org.serratec.model;
+package org.serratec.enums;
 
 public enum Estado {
 

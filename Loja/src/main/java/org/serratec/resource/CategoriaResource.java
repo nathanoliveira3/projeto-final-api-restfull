@@ -1,23 +1,7 @@
 package org.serratec.resource;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.serratec.dto.categoria.CategoriaAtualizarDTO;
-import org.serratec.dto.categoria.CategoriaDTO;
-import org.serratec.dto.categoria.CategoriaDeletarDTO;
-import org.serratec.exceptions.CategoriaException;
-import org.serratec.model.Categoria;
 import org.serratec.repository.CategoriaRepositry;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -25,8 +9,7 @@ public class CategoriaResource {
 	
 	@Autowired
 	private CategoriaRepositry categoriaRepository;
-	
-	@GetMapping("/categoria")
+	/*@GetMapping("/categoria")
     public ResponseEntity<?> findByNome(@RequestParam(required = false) String nome) throws CategoriaException{
        
     	if(nome == null) {
@@ -66,5 +49,5 @@ public class CategoriaResource {
 
         categoriaRepository.delete(categoria);
         return new ResponseEntity<>("Categoria deletada com sucesso!", HttpStatus.OK);
-    }
+    }*/
 }

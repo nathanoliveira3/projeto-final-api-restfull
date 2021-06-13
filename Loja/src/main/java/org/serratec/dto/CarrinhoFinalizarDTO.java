@@ -18,7 +18,7 @@ public class CarrinhoFinalizarDTO {
 		return carrinho;
 	}
 
-	public String getCpf() {
+	public String getCodigo() {
 		return codigo;
 	}
 

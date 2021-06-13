@@ -1,7 +1,7 @@
 package org.serratec.dto;
 
+import org.serratec.enums.Estado;
 import org.serratec.model.Endereco;
-import org.serratec.model.Estado;
 import org.springframework.web.client.RestTemplate;
 
 public class EnderecoCadastroDTO {

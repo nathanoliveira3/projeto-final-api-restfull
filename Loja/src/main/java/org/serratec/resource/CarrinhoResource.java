@@ -12,6 +12,7 @@ import org.serratec.exceptions.ProdutoException;
 import org.serratec.model.Carrinho;
 import org.serratec.model.CarrinhoProduto;
 import org.serratec.model.Pedido;
+import org.serratec.model.PedidoProduto;
 import org.serratec.repository.CarrinhoRepository;
 import org.serratec.repository.ClienteRepository;
 import org.serratec.repository.PedidoRepository;
@@ -100,6 +101,16 @@ public class CarrinhoResource {
 			pedido.setDataPedido(LocalDate.now());
 			pedido.setStatus(StatusPedido.AGUARDANDO_PAGAMENTO);
 			pedido.setValor(carrinho.getValorTotal());
+			
+			for(CarrinhoProduto c : carrinho.getProdutos()) {
+				PedidoProduto pedidoProduto = new PedidoProduto();
+				pedidoProduto.setPedido(pedido);
+				pedidoProduto.setProduto(c.getProduto());
+				pedidoProduto.setPreco(c.getPreco());
+				pedidoProduto.setQuantidade(c.getQuantidade());
+				
+				pedido.getProdutos().add(pedidoProduto);
+			}
 			
 			pedidoRepository.save(pedido);
 			
