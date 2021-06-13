@@ -2,7 +2,7 @@ package org.serratec.resource;
 
 import java.util.List;
 
-import org.serratec.dto.ClienteCadastroDTO;
+import org.serratec.dto.cliente.ClienteCadastroDTO;
 import org.serratec.exceptions.ClienteException;
 import org.serratec.model.Cliente;
 import org.serratec.repository.ClienteRepository;

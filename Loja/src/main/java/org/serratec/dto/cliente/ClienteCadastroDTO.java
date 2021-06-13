@@ -1,7 +1,8 @@
-package org.serratec.dto;
+package org.serratec.dto.cliente;
 
 import java.time.LocalDate;
 
+import org.serratec.dto.EnderecoCadastroDTO;
 import org.serratec.model.Cliente;
 import org.serratec.model.Endereco;
 
