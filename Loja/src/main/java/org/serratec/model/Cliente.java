@@ -11,6 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
+
+import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 public class Cliente {
@@ -19,6 +22,7 @@ public class Cliente {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Email
 	@Column(unique = true)
 	private String email;	
 
@@ -27,6 +31,7 @@ public class Cliente {
 	private String senha;	
 	
 	@Column(unique = true)
+	@CPF(message = "CPF inválido")
 	private String cpf;
 	
 	private String telefone;

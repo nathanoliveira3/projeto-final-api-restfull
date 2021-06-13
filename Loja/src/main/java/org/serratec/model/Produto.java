@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -30,7 +31,10 @@ public class Produto {
 	private String descricao;
 	
 	@NotNull
+	@Min(value = 0, message = "O preço deve ser maior ou igual a 0")
 	private Double preco;
+	
+	@Min(value = 0, message = "A quantidade deve ser maior ou igual a 0")
 	private Integer estoque;
 	private LocalDate dataCadastro;
 	private String imagem;
