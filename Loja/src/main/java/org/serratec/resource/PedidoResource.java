@@ -2,8 +2,10 @@ package org.serratec.resource;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.serratec.dto.StatusPedidoAlterarDTO;
+import org.serratec.dto.pedido.PedidoDetalheDTO;
 import org.serratec.enums.StatusPedido;
 import org.serratec.exceptions.PedidoException;
 import org.serratec.model.Pedido;
@@ -29,8 +31,9 @@ public class PedidoResource {
 	@GetMapping("/pedido")
 	public ResponseEntity<?> getPedidos() {
 		List<Pedido> pedidos = pedidoRepository.findAll();
+		List<PedidoDetalheDTO> dto = pedidos.stream().map(obj -> new PedidoDetalheDTO(obj)).collect(Collectors.toList());
 
-		return new ResponseEntity<>(pedidos, HttpStatus.OK);
+		return new ResponseEntity<>(dto, HttpStatus.OK);
 	}
 
 	@PutMapping("/pedido/statusPedido")
