@@ -27,13 +27,13 @@ Repositório para o trabalho final da disciplina API Restful da Residência em S
 - [x] Editar um produto.
 - [x] Deletar um produto.
 - [x] Visualizar todos os pedidos.
-- Excluir algum pedido.
+- [x] Excluir algum pedido.
 
 ## Observações:
 
 - [x] CPF deve ser válido.
 - [x] Produto não poderá ter valores negativos
-- Todas as exceptions devem ser tratadas
+- [x] Todas as exceptions devem ser tratadas
 - A Api deverá utilizar como documentação a ferramenta do Swagger.
 
 ## Desafio Extra (Opcional):
