@@ -18,6 +18,8 @@ import javax.persistence.OneToMany;
 
 import org.serratec.enums.StatusPedido;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Pedido {
 
@@ -36,6 +38,7 @@ public class Pedido {
 	private Cliente cliente;
 
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<PedidoProduto> produtos = new ArrayList<>();
 
 	public Long getId() {
@@ -105,6 +108,14 @@ public class Pedido {
 			this.codigo = codigo;
 		}
 		return this.codigo;
+	}
+	
+	public Double getValorTotal() {
+		Double valor = 0.00;
+		for(PedidoProduto p : produtos) {
+			valor += (p.getPreco() * p.getQuantidade());
+		}
+		return valor;		
 	}
 
 	public List<PedidoProduto> getProdutos() {

@@ -1,12 +1,15 @@
 package org.serratec.resource;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.mail.MessagingException;
+
 import org.serratec.dto.StatusPedidoAlterarDTO;
-import org.serratec.enums.StatusPedido;
 import org.serratec.exceptions.PedidoException;
 import org.serratec.model.Pedido;
+import org.serratec.model.PedidoProduto;
 import org.serratec.repository.PedidoRepository;
 import org.serratec.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +37,7 @@ public class PedidoResource {
 	}
 
 	@PutMapping("/pedido/statusPedido")
-	public ResponseEntity<?> putStatus(@RequestBody StatusPedidoAlterarDTO dto){	
+	public ResponseEntity<?> putStatus(@RequestBody StatusPedidoAlterarDTO dto) throws MessagingException{	
 		
 		
 		
@@ -44,12 +47,16 @@ public class PedidoResource {
 			pedido = dto.toPedido(pedidoRepository);
 			pedidoRepository.save(pedido);
 			
-			if (pedido.getStatus().equals(StatusPedido.FINALIZADO))
-				emailService.enviar("Pedido finalizado com sucesso!",
+			List<String> produtos = new ArrayList<>();
+			for(PedidoProduto p : pedido.getProdutos()) {
+				produtos.add(p.getProduto().getNome()); 
+			}			
+		
+			emailService.enviar("Olá, O status do seu pedido foi atualizado para " + pedido.getStatus(),
 						"Data de Entrega: " + LocalDate.now().plusDays(15) + 
-						"\nProdutos: " + pedido.getProdutos(), 
-						pedido.getCliente().getEmail(),
-						"Capim Canela E-commerce");
+						"\nProdutos: " + produtos + " Valor Total = " + pedido.getValorTotal(), 
+						pedido.getCliente().getEmail());
+			
 				
 				
 			

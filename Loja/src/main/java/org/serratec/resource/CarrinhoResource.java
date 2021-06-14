@@ -17,6 +17,7 @@ import org.serratec.repository.CarrinhoRepository;
 import org.serratec.repository.ClienteRepository;
 import org.serratec.repository.PedidoRepository;
 import org.serratec.repository.ProdutoRepository;
+import org.serratec.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,9 +38,12 @@ public class CarrinhoResource {
 
 	@Autowired
 	ProdutoRepository produtoRepository;
-	
+
 	@Autowired
 	PedidoRepository pedidoRepository;
+
+	@Autowired
+	EmailService emailService;
 
 	@PutMapping("/carrinho")
 	public ResponseEntity<?> atualizarPedido(@RequestBody CarrinhoAtualizarItemDTO dto)
@@ -75,7 +79,7 @@ public class CarrinhoResource {
 			return new ResponseEntity<>("Adicionado com sucesso.", HttpStatus.OK);
 		} catch (ClienteException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}catch (ProdutoException e) {
+		} catch (ProdutoException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -90,7 +94,7 @@ public class CarrinhoResource {
 	}
 
 	@PostMapping("/carrinho/finalizar")
-	public ResponseEntity<?> finalizarCarrinho(CarrinhoFinalizarDTO dto) {
+	public ResponseEntity<?> finalizarCarrinho(@RequestBody CarrinhoFinalizarDTO dto) {
 
 		try {
 			Carrinho carrinho = dto.toCarrinho(carrinhoRepository);
@@ -101,25 +105,23 @@ public class CarrinhoResource {
 			pedido.setDataPedido(LocalDate.now());
 			pedido.setStatus(StatusPedido.AGUARDANDO_PAGAMENTO);
 			pedido.setValor(carrinho.getValorTotal());
-			
-			for(CarrinhoProduto c : carrinho.getProdutos()) {
+
+			for (CarrinhoProduto c : carrinho.getProdutos()) {
 				PedidoProduto pedidoProduto = new PedidoProduto();
 				pedidoProduto.setPedido(pedido);
 				pedidoProduto.setProduto(c.getProduto());
 				pedidoProduto.setPreco(c.getPreco());
 				pedidoProduto.setQuantidade(c.getQuantidade());
-				
+
 				pedido.getProdutos().add(pedidoProduto);
 			}
-			
+
 			pedidoRepository.save(pedido);
-			
+
 			carrinhoRepository.delete(carrinho);
 
 			return new ResponseEntity<>(pedido, HttpStatus.OK);
 
-		} catch (ClienteException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		} catch (CarrinhoException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
