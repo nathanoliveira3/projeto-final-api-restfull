@@ -26,6 +26,11 @@ public class PedidoDetalheDTO {
 		this.cliente = new ClienteDetalheDTO(pedido.getCliente());
 		this.produtos = new ArrayList<>();
 		
+		for (PedidoProduto pp : produtos) {
+			this.produtos.add(pp);
+		}
+		
+		
 	}
 	
 	public String getCodigo() {
