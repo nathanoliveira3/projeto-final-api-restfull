@@ -8,11 +8,7 @@ import java.util.stream.Collectors;
 import javax.mail.MessagingException;
 
 import org.serratec.dto.StatusPedidoAlterarDTO;
-<<<<<<< HEAD
-=======
 import org.serratec.dto.pedido.PedidoDetalheDTO;
-import org.serratec.enums.StatusPedido;
->>>>>>> 3b9d7225d4be9272c410e8d8f275f4a38b484523
 import org.serratec.exceptions.PedidoException;
 import org.serratec.model.Pedido;
 import org.serratec.model.PedidoProduto;
@@ -59,14 +55,16 @@ public class PedidoResource {
 				produtos.add(p.getProduto().getNome()); 
 			}			
 		
+			List<Integer> quantidades = new ArrayList<>();
+			for(PedidoProduto pp : pedido.getProdutos()) {
+				quantidades.add(pp.getQuantidade());
+			}
+			
 			emailService.enviar("Olá, O status do seu pedido foi atualizado para " + pedido.getStatus(),
 						"Data de Entrega: " + LocalDate.now().plusDays(15) + 
-						"\nProdutos: " + produtos + " Valor Total = " + pedido.getValorTotal(), 
+						"\nProdutos: " + produtos + "\nQuantidade: " + quantidades +"\nValor Total = " + pedido.getValorTotal(), 
 						pedido.getCliente().getEmail());
-			
-				
-				
-			
+
 			return new ResponseEntity<>("Pedido alterado com sucesso", HttpStatus.OK);
 		} catch (PedidoException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
