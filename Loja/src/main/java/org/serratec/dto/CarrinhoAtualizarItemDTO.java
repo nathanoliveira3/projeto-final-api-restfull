@@ -38,7 +38,7 @@ public class CarrinhoAtualizarItemDTO {
 		produtoCarrinho.setQuantidade(this.quantidade);
 
 		Produto produto = produtoRepository.findByCodigo(this.codigoProduto)
-				.orElseThrow(() -> new ProdutoException("Código do livro inexistente."));
+				.orElseThrow(() -> new ProdutoException("Código do produto inexistente."));
 
 		produtoCarrinho.setProduto(produto);
 		produtoCarrinho.setPreco(produto.getPreco());
