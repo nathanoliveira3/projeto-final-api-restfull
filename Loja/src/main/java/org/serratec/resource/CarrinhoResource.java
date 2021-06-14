@@ -90,7 +90,7 @@ public class CarrinhoResource {
 	}
 
 	@PostMapping("/carrinho/finalizar")
-	public ResponseEntity<?> finalizarCarrinho(CarrinhoFinalizarDTO dto) {
+	public ResponseEntity<?> finalizarCarrinho(@RequestBody CarrinhoFinalizarDTO dto) {
 
 		try {
 			Carrinho carrinho = dto.toCarrinho(carrinhoRepository);
