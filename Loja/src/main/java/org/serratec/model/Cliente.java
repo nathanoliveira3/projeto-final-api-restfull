@@ -1,6 +1,8 @@
 package org.serratec.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,9 +16,11 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 
 import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-public class Cliente {
+public class Cliente implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,12 +30,14 @@ public class Cliente {
 	@Column(unique = true)
 	private String email;	
 
+	@Column(unique = true)
 	private String usuario;	
+	
 	private String nome;	
 	private String senha;	
 	
 	@Column(unique = true)
-	@CPF(message = "CPF inválido")
+	//@CPF(message = "CPF inválido")
 	private String cpf;
 	
 	private String telefone;
@@ -113,6 +119,41 @@ public class Cliente {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {		
+		return new ArrayList<GrantedAuthority>();
+	}
+
+	@Override
+	public String getPassword() {		
+		return this.senha;
+	}
+
+	@Override
+	public String getUsername() {		
+		return this.usuario;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {		
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {		
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {		
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {		
+		return true;
 	}	
 	
 }

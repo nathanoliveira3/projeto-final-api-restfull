@@ -8,11 +8,7 @@ import java.util.stream.Collectors;
 import javax.mail.MessagingException;
 
 import org.serratec.dto.StatusPedidoAlterarDTO;
-<<<<<<< HEAD
-=======
 import org.serratec.dto.pedido.PedidoDetalheDTO;
-import org.serratec.enums.StatusPedido;
->>>>>>> 3b9d7225d4be9272c410e8d8f275f4a38b484523
 import org.serratec.exceptions.PedidoException;
 import org.serratec.model.Pedido;
 import org.serratec.model.PedidoProduto;
