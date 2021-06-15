@@ -24,12 +24,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api("API - Produto")
 @RestController
 public class ProdutoResource {
 	
 	@Autowired
 	private ProdutoRepository produtoRepository;
 	
+	@ApiOperation(value = "Cadastro de produtos.")
 	@PostMapping("/produto")
 	public ResponseEntity<?> postProduto(@Validated @RequestBody ProdutoCadastrarDTO dto) throws ProdutoException{
 		
@@ -38,6 +43,7 @@ public class ProdutoResource {
 		return new ResponseEntity<>("Produto cadastrado com Sucesso", HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "Pesquisa de produto geral e por nome.")
 	@GetMapping("/produto")
     public ResponseEntity<?> findByNome(@RequestParam(required = false) String nome) throws ProdutoException{
        
@@ -48,12 +54,13 @@ public class ProdutoResource {
             return new ResponseEntity<>(todosDTO, HttpStatus.OK);
     	}
     	
-    	Produto produto = produtoRepository.findByNome(nome)
+    	Produto produto = produtoRepository.findByNomeContainingIgnoreCase(nome)
     			.orElseThrow(() -> new ProdutoException("Produto não cadastrado."));
         
     		return  new ResponseEntity<>(produto, HttpStatus.OK);
     }
 	
+	@ApiOperation(value = "Pesquisa de produto por código.")
 	@GetMapping("/produto/por-codigo")
 	public ResponseEntity<?> getProdutoPorCodigo(@Validated @RequestBody ProdutoDetalheDTO dto) throws ProdutoException{
 		
@@ -63,8 +70,8 @@ public class ProdutoResource {
 		return new ResponseEntity<>(produto, HttpStatus.OK);
 	}
 	
-   
-    @PutMapping("/produto/editar")
+	@ApiOperation(value = "Alteração de produto.")
+    @PutMapping("/produto")
     public ResponseEntity<?> putProduto(@RequestBody ProdutoAtualizarDTO dto) throws ProdutoException {
 		
 		Produto produto = produtoRepository.findByCodigo(dto.getCodigo()).orElseThrow(() -> new ProdutoException("Produto não encontrado."));
@@ -80,7 +87,8 @@ public class ProdutoResource {
 		return new ResponseEntity<>("Produto alterado com sucesso!", HttpStatus.OK);
     } 
     
-    @DeleteMapping("/produto/delete")
+	@ApiOperation(value = "Exclusão de produto.")
+    @DeleteMapping("/produto")
     public ResponseEntity<?> deleteProduto(@RequestBody ProdutoDeletarDTO dto) throws ProdutoException {
         Produto produto = produtoRepository.findByCodigo(dto.getCodigo())
         		.orElseThrow(() -> new ProdutoException("Produto não cadastrado."));    

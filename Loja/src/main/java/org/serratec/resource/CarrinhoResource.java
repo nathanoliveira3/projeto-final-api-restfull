@@ -2,6 +2,9 @@ package org.serratec.resource;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+
+import javax.mail.MessagingException;
 
 import org.serratec.dto.CarrinhoAtualizarItemDTO;
 import org.serratec.dto.CarrinhoFinalizarDTO;
@@ -22,11 +25,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api("API - Carrinho de Produtos")
 @RestController
 public class CarrinhoResource {
 
@@ -45,6 +53,7 @@ public class CarrinhoResource {
 	@Autowired
 	EmailService emailService;
 
+	@ApiOperation(value = "Cadastro e Atualização de produtos no carrinho")
 	@PutMapping("/carrinho")
 	public ResponseEntity<?> atualizarPedido(@RequestBody CarrinhoAtualizarItemDTO dto)
 			throws ClienteException, ProdutoException {
@@ -84,6 +93,7 @@ public class CarrinhoResource {
 		}
 	}
 
+	@ApiOperation(value = "Pesquisa por todos os carrinhos.")
 	@GetMapping("/carrinho")
 	public ResponseEntity<?> getDetalhes() {
 
@@ -92,7 +102,19 @@ public class CarrinhoResource {
 		return new ResponseEntity<>(carrinhos, HttpStatus.OK);
 
 	}
-
+	
+	@ApiOperation(value = "Pesquisa de carrinhos por código.")
+	@GetMapping("/carrinho/por-codigo/{codigo}")
+	public ResponseEntity<?> getCarrinhoPorCodigo(@PathVariable String codigo) throws CarrinhoException{
+		Optional<Carrinho> carrinho = carrinhoRepository.findByCodigo(codigo);
+				
+		if(carrinho.isEmpty())
+			return new ResponseEntity<>("Carrinho não cadastrado", HttpStatus.NOT_FOUND);
+		
+		return new ResponseEntity<>(carrinho.get(), HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "Finalizar carrinho e fechar pedido.")
 	@PostMapping("/carrinho/finalizar")
 	public ResponseEntity<?> finalizarCarrinho(@RequestBody CarrinhoFinalizarDTO dto) {
 
@@ -119,6 +141,14 @@ public class CarrinhoResource {
 			pedidoRepository.save(pedido);
 
 			carrinhoRepository.delete(carrinho);
+			
+			try {
+				emailService.enviar("Olá, acabamos de receber o seu pedido. " + pedido.getStatus(),
+						"Data de Entrega: " + LocalDate.now().plusDays(15) +" Valor: "+ pedido.getValorTotal(),
+						pedido.getCliente().getEmail());
+			} catch (MessagingException e) {				
+				e.printStackTrace();
+			}
 
 			return new ResponseEntity<>(pedido, HttpStatus.OK);
 

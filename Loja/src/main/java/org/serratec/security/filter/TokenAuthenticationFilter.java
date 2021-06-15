@@ -41,13 +41,13 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 	private void authenticate(String tokenFromHeader) {
 		Long id = tokenService.getTokenId(tokenFromHeader);
 		
-		Optional<Cliente> optionalUser = clienteRepository.findById(id);
+		Optional<Cliente> optionalCliente = clienteRepository.findById(id);
 		
-		if(optionalUser.isPresent()) {
+		if(optionalCliente.isPresent()) {
 			
-			Cliente user = optionalUser.get();
+			Cliente cliente = optionalCliente.get();
 			
-			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(user, null, null/*user.getPerfis()*/);
+			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(cliente, null, null);
 			SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 		}
 	}

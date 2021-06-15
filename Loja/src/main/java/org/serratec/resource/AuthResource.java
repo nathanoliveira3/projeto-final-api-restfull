@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api("API para login de usuários na loja")
 @RestController
 public class AuthResource {
 
@@ -21,8 +25,9 @@ public class AuthResource {
 	private AuthenticationManager authenticationManager;
 	
 	@Autowired
-	private TokenService tokenService;
+	private TokenService tokenService;	
 	
+	@ApiOperation(value = "Envio de Usuário e Senha para Login")
 	@PostMapping("/auth")
 	public ResponseEntity<?> auth(@RequestBody @Validated LoginDTO loginDTO){
 		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getUser(), loginDTO.getPass());

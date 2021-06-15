@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import org.serratec.dto.EnderecoCadastroDTO;
 import org.serratec.model.Cliente;
 import org.serratec.model.Endereco;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class ClienteCadastroDTO {
 
@@ -22,11 +23,15 @@ public class ClienteCadastroDTO {
 
 		cliente.setEmail(this.email);
 		cliente.setUsuario(this.usuario);
-		cliente.setNome(this.nome);
-		cliente.setSenha(this.senha);
+		cliente.setNome(this.nome);		
 		cliente.setCpf(this.cpf);
 		cliente.setTelefone(this.telefone);
 		cliente.setDataNascimento(dataNascimento);
+		
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		String senhaCodificada = encoder.encode(this.senha);
+		
+		cliente.setSenha(senhaCodificada);
 
 		Endereco endereco = this.endereco.toEndereco();
 		cliente.setEndereco(endereco);

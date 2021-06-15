@@ -14,12 +14,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api("API - Endereço")
 @RestController
 public class EnderecoResource {
 	
 	@Autowired
 	private EnderecoRepository enderecoRepository;
 	
+	@ApiOperation(value = "Cadastro de endereço")
 	@PostMapping("/endereco")
 	public ResponseEntity<?> postEndereco(@Validated @RequestBody EnderecoCadastroDTO dto){
 		
@@ -30,11 +35,11 @@ public class EnderecoResource {
 			
 		}catch(Exception e) {
 			
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-			
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);			
 		}
 	}
 	
+	@ApiOperation(value = "Busca de endereço.")
 	@GetMapping("/endereco")
 	public ResponseEntity<?> getEnderecos(){
 		List<Endereco> enderecos = enderecoRepository.findAll();
