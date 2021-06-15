@@ -12,7 +12,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
 public class TokenService {
-
+	
 	private Long expiration = 86400000L;
 	private String secret = "meu segredo";
 

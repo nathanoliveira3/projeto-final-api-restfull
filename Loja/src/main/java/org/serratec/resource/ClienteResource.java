@@ -3,6 +3,7 @@ package org.serratec.resource;
 import java.util.List;
 
 import org.serratec.dto.cliente.ClienteCadastroDTO;
+import org.serratec.dto.cliente.StatusClienteDTO;
 import org.serratec.exceptions.ClienteException;
 import org.serratec.model.Cliente;
 import org.serratec.repository.ClienteRepository;
@@ -53,8 +54,17 @@ public class ClienteResource {
 		
 		clienteRepository.save(cliente);
 		
-		return new  ResponseEntity<>("Cliente alterado com sucesso",HttpStatus.OK);
+		return new  ResponseEntity<>("Cliente alterado com sucesso",HttpStatus.OK);		
+	}
+	
+	@PutMapping("cliente/status")
+	public ResponseEntity<?> alterarStatusCLiente(@RequestBody StatusClienteDTO dto){
 		
-		
+		try {
+			Cliente cliente = dto.toCliente(clienteRepository);
+			return new ResponseEntity<>(cliente, HttpStatus.OK);
+		} catch (ClienteException e) {			
+			return new ResponseEntity<>("Cliente não cadastrado.", HttpStatus.BAD_REQUEST);
+		}
 	}
 }
