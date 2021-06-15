@@ -9,7 +9,7 @@ Repositório para o trabalho final da disciplina API Restful da Residência em S
 - [x] 04 - O endereço deverá ser validado através da API Via Cep.
 - [x] 05 - Após logado o Cliente poderá fazer as seguintes operações:(Com exceção das duas últimas (11 e 12), todas não poderão ser realizadas sem o envio do token)
 - [x] 06 - Atualizar seus próprios dados pessoais (como endereço, telefone, menos CPF).
-- 07 - Desativar sua própria conta.
+- [x] 07 - Desativar sua própria conta.
 - [x] 08 - Criar um novo Pedido  
 - [x] 09 - Editar um pedido  que não esteja com status de finalizado.
 - [x] 10 - Finalizar um pedido, alterar seu status para finalizado. Ao finalizar o pedido enviar e-mail para o cliente informando data de entrega, produtos, quantidades e valor final do pedido.
