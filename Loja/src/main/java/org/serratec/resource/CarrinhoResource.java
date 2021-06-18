@@ -6,8 +6,8 @@ import java.util.Optional;
 
 import javax.mail.MessagingException;
 
-import org.serratec.dto.CarrinhoAtualizarItemDTO;
-import org.serratec.dto.CarrinhoFinalizarDTO;
+import org.serratec.dto.carrinho.CarrinhoAtualizarItemDTO;
+import org.serratec.dto.carrinho.CarrinhoFinalizarDTO;
 import org.serratec.enums.StatusPedido;
 import org.serratec.exceptions.CarrinhoException;
 import org.serratec.exceptions.ClienteException;

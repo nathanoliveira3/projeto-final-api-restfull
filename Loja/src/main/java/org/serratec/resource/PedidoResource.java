@@ -8,8 +8,9 @@ import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
 
-import org.serratec.dto.StatusPedidoAlterarDTO;
+import org.serratec.dto.pedido.PedidoDeletarDTO;
 import org.serratec.dto.pedido.PedidoDetalheDTO;
+import org.serratec.dto.pedido.StatusPedidoAlterarDTO;
 import org.serratec.exceptions.CarrinhoException;
 import org.serratec.exceptions.PedidoException;
 import org.serratec.model.Pedido;
@@ -19,6 +20,7 @@ import org.serratec.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -88,5 +90,14 @@ public class PedidoResource {
 		} catch (PedidoException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@ApiOperation(value = "Exclusão de pedido")
+	@DeleteMapping("/pedido")
+	public ResponseEntity<?> deletePedido(@RequestBody PedidoDeletarDTO dto) throws PedidoException{
+		Pedido pedido = pedidoRepository.findByCodigo(dto.getCodigo()).orElseThrow(() -> new PedidoException("Pedido não encontrado!"));
+		
+		pedidoRepository.delete(pedido);
+		return new ResponseEntity<>("Pedido deletado com sucesso!", HttpStatus.OK);
 	}
 }

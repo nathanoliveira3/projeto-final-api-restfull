@@ -1,4 +1,4 @@
-package org.serratec.dto;
+package org.serratec.dto.pedido;
 
 import org.serratec.enums.StatusPedido;
 import org.serratec.exceptions.PedidoException;

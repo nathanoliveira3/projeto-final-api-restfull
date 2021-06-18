@@ -1,4 +1,4 @@
-package org.serratec.dto;
+package org.serratec.dto.carrinho;
 
 import org.serratec.exceptions.ClienteException;
 import org.serratec.exceptions.ProdutoException;

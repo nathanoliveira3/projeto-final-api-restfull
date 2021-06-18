@@ -1,4 +1,4 @@
-package org.serratec.dto;
+package org.serratec.dto.carrinho;
 
 import java.util.ArrayList;
 import java.util.List;
