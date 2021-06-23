@@ -1,12 +1,14 @@
 package org.serratec.resource;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.mail.MessagingException;
 
 import org.serratec.dto.carrinho.CarrinhoAtualizarItemDTO;
+import org.serratec.dto.carrinho.CarrinhoDTO;
 import org.serratec.dto.carrinho.CarrinhoFinalizarDTO;
 import org.serratec.enums.StatusPedido;
 import org.serratec.exceptions.CarrinhoException;
@@ -98,10 +100,16 @@ public class CarrinhoResource {
 	public ResponseEntity<?> getDetalhes() {
 
 		List<Carrinho> carrinhos = carrinhoRepository.findAll();
+		List<CarrinhoDTO> dtos = new ArrayList<>();
+		
+		for(Carrinho c : carrinhos) {
+			dtos.add(new CarrinhoDTO(c));
+		}
 
-		return new ResponseEntity<>(carrinhos, HttpStatus.OK);
+		return new ResponseEntity<>(dtos, HttpStatus.OK);
 
-	}
+	}	
+	
 	
 	@ApiOperation(value = "Pesquisa de carrinhos por código.")
 	@GetMapping("/carrinho/por-codigo/{codigo}")

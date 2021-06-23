@@ -18,11 +18,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.google.common.base.Optional;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -48,10 +51,9 @@ public class ProdutoResource {
     public ResponseEntity<?> findByNome(@RequestParam(required = false) String nome) throws ProdutoException{
        
     	if(nome == null) {
-    		List<Produto> produtos = produtoRepository.findAll();
-    		List<ProdutoDetalheDTO> todosDTO = produtos.stream().map(obj -> new ProdutoDetalheDTO(obj)).collect(Collectors.toList());
+    		List<Produto> produtos = produtoRepository.findAll();    		
 
-            return new ResponseEntity<>(todosDTO, HttpStatus.OK);
+            return new ResponseEntity<>(produtos, HttpStatus.OK);
     	}
     	
     	Produto produto = produtoRepository.findByNomeContainingIgnoreCase(nome)
@@ -59,6 +61,14 @@ public class ProdutoResource {
         
     		return  new ResponseEntity<>(produto, HttpStatus.OK);
     }
+	
+	@GetMapping("/produto/{id}")
+	public ResponseEntity<?> findProdutoById(@PathVariable Long id) throws ProdutoException{
+		Produto produto = produtoRepository.findById(id)
+				.orElseThrow(() -> new ProdutoException("Produto não cadastrado"));
+		
+		return new ResponseEntity<>(produto, HttpStatus.OK);
+	}
 	
 	@ApiOperation(value = "Pesquisa de produto por código.")
 	@GetMapping("/produto/por-codigo")

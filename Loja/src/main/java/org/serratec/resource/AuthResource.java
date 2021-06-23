@@ -39,6 +39,7 @@ public class AuthResource {
 		TokenDTO tokenDTO = new TokenDTO();
 		tokenDTO.setToken(token);
 		tokenDTO.setType("Bearer");
+		tokenDTO.setUser(loginDTO.getUser());
 		
 		return new ResponseEntity<>(tokenDTO, HttpStatus.OK);		
 	}

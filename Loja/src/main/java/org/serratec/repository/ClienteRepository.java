@@ -9,7 +9,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
 	Optional<Cliente> findByCpf(String cpf);
 
-	Optional<Cliente> findByUsuario(String usuario);
+	Optional<Cliente> findByUsuarioIgnoreCase(String usuario);
 
 	Optional<Cliente> findByNomeContainingIgnoreCase(String nome);
 
