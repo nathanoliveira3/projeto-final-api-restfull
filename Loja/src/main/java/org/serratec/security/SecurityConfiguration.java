@@ -57,8 +57,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
          	.antMatchers(HttpMethod.DELETE, "/produto").permitAll()
         	.antMatchers(HttpMethod.GET, "/produto").permitAll()
         	.antMatchers(HttpMethod.GET, "/pedido").permitAll()
+        	.antMatchers(HttpMethod.POST, "/cliente").permitAll()
+        	.antMatchers(HttpMethod.POST, "/endereco").permitAll()
+        	.antMatchers(HttpMethod.GET, "/cliente").permitAll()
         	.anyRequest().authenticated()
-        	.and().csrf().disable()
+        	.and().cors().and().csrf().disable()
         	.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         	.and().addFilterBefore(new TokenAuthenticationFilter(tokenService, clienteRepository), UsernamePasswordAuthenticationFilter.class);
     }
@@ -73,4 +76,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                  "/swagger-ui.html",
                  "/webjars/**");
     }
+    
+    
 }

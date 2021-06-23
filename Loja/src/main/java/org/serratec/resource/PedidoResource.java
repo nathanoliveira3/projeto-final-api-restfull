@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
 
-import org.serratec.dto.pedido.PedidoDeletarDTO;
+//import org.serratec.dto.pedido.PedidoDeletarDTO;
 import org.serratec.dto.pedido.PedidoDetalheDTO;
 import org.serratec.dto.pedido.StatusPedidoAlterarDTO;
 import org.serratec.exceptions.CarrinhoException;
@@ -92,12 +92,12 @@ public class PedidoResource {
 		}
 	}
 	
-	@ApiOperation(value = "Exclusão de pedido")
+	/*@ApiOperation(value = "Exclusão de pedido")
 	@DeleteMapping("/pedido")
 	public ResponseEntity<?> deletePedido(@RequestBody PedidoDeletarDTO dto) throws PedidoException{
 		Pedido pedido = pedidoRepository.findByCodigo(dto.getCodigo()).orElseThrow(() -> new PedidoException("Pedido não encontrado!"));
 		
 		pedidoRepository.delete(pedido);
 		return new ResponseEntity<>("Pedido deletado com sucesso!", HttpStatus.OK);
-	}
+	}*/
 }
