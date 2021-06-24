@@ -9,6 +9,7 @@ import org.serratec.dto.pedidoproduto.PedidoProdutoDetalheDTO;
 import org.serratec.enums.StatusPedido;
 import org.serratec.model.Pedido;
 import org.serratec.model.PedidoProduto;
+import org.serratec.model.Produto;
 
 public class PedidoDetalheDTO {
 
@@ -17,7 +18,7 @@ public class PedidoDetalheDTO {
 	private LocalDate data;
 	private StatusPedido status;
 	private ClienteDetalheDTO cliente;
-	private List<PedidoProdutoDetalheDTO> produtos;
+	private List<String> produtos;
 	
 	public PedidoDetalheDTO(Pedido pedido) {
 		this.codigo = pedido.getCodigo();
@@ -27,8 +28,8 @@ public class PedidoDetalheDTO {
 		this.cliente = new ClienteDetalheDTO(pedido.getCliente());
 		this.produtos = new ArrayList<>();
 		
-		for (PedidoProduto pp : pedido.getProdutos()) {
-			this.produtos.add(new PedidoProdutoDetalheDTO(pp));
+		for (PedidoProduto p : pedido.getProdutos()) {
+			this.produtos.add(p.getProduto().getNome());
 		}
 		
 	}
@@ -48,7 +49,7 @@ public class PedidoDetalheDTO {
 	public ClienteDetalheDTO getCliente() {
 		return cliente;
 	}
-	public List<PedidoProdutoDetalheDTO> getProdutos() {
+	public List<String> getProdutos() {
 		return produtos;
 	}
 	

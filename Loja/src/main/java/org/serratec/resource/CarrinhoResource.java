@@ -1,12 +1,14 @@
 package org.serratec.resource;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.mail.MessagingException;
 
 import org.serratec.dto.carrinho.CarrinhoAtualizarItemDTO;
+import org.serratec.dto.carrinho.CarrinhoDTO;
 import org.serratec.dto.carrinho.CarrinhoFinalizarDTO;
 import org.serratec.enums.StatusPedido;
 import org.serratec.exceptions.CarrinhoException;
@@ -14,6 +16,7 @@ import org.serratec.exceptions.ClienteException;
 import org.serratec.exceptions.ProdutoException;
 import org.serratec.model.Carrinho;
 import org.serratec.model.CarrinhoProduto;
+import org.serratec.model.Cliente;
 import org.serratec.model.Pedido;
 import org.serratec.model.PedidoProduto;
 import org.serratec.repository.CarrinhoRepository;
@@ -62,7 +65,7 @@ public class CarrinhoResource {
 			Carrinho carrinho = dto.toCarrinho(clienteRepository, carrinhoRepository);
 
 			for (CarrinhoProduto i : carrinho.getProdutos()) {
-				if (i.getProduto().getCodigo().equals(dto.getCodigoProduto())) {
+				if (i.getProduto().getCodigo().equalsIgnoreCase(dto.getCodigoProduto())) {
 					if (dto.getQuantidade() == 0) {
 						carrinho.getProdutos().remove(i);
 					} else {
@@ -98,10 +101,16 @@ public class CarrinhoResource {
 	public ResponseEntity<?> getDetalhes() {
 
 		List<Carrinho> carrinhos = carrinhoRepository.findAll();
+		List<CarrinhoDTO> dtos = new ArrayList<>();
+		
+		for(Carrinho c : carrinhos) {
+			dtos.add(new CarrinhoDTO(c));
+		}
 
-		return new ResponseEntity<>(carrinhos, HttpStatus.OK);
+		return new ResponseEntity<>(dtos, HttpStatus.OK);
 
-	}
+	}	
+	
 	
 	@ApiOperation(value = "Pesquisa de carrinhos por código.")
 	@GetMapping("/carrinho/por-codigo/{codigo}")
@@ -112,6 +121,16 @@ public class CarrinhoResource {
 			return new ResponseEntity<>("Carrinho não cadastrado", HttpStatus.NOT_FOUND);
 		
 		return new ResponseEntity<>(carrinho.get(), HttpStatus.OK);
+	}
+	
+	@GetMapping("carrinho/{idCliente}")
+	public ResponseEntity<?> getCarrinhoPorCliente(@PathVariable Long idCliente) throws ClienteException, CarrinhoException{
+		Cliente cliente = clienteRepository.findById(idCliente).orElseThrow(() -> new ClienteException("Cliente não cadastrado"));
+		
+		Carrinho carrinho = carrinhoRepository.findByCliente(cliente).orElseThrow(() -> new CarrinhoException("Carrinho vazio"));
+		
+		return new ResponseEntity<>(new CarrinhoDTO(carrinho), HttpStatus.OK);
+		
 	}
 	
 	@ApiOperation(value = "Finalizar carrinho e fechar pedido.")
@@ -150,7 +169,7 @@ public class CarrinhoResource {
 				e.printStackTrace();
 			}
 
-			return new ResponseEntity<>(pedido, HttpStatus.OK);
+			return new ResponseEntity<>("Recebemos o seu pedido", HttpStatus.OK);
 
 		} catch (CarrinhoException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

@@ -12,11 +12,15 @@ import javax.mail.MessagingException;
 import org.serratec.dto.pedido.PedidoDetalheDTO;
 import org.serratec.dto.pedido.StatusPedidoAlterarDTO;
 import org.serratec.exceptions.CarrinhoException;
+import org.serratec.exceptions.ClienteException;
 import org.serratec.exceptions.PedidoException;
+import org.serratec.model.Cliente;
 import org.serratec.model.Pedido;
 import org.serratec.model.PedidoProduto;
+import org.serratec.repository.ClienteRepository;
 import org.serratec.repository.PedidoRepository;
 import org.serratec.service.EmailService;
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +43,9 @@ public class PedidoResource {
 
 	@Autowired
 	EmailService emailService;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
 
 	@ApiOperation(value = "Pesquisa de pedidos")
 	@GetMapping("/pedido")
@@ -48,6 +55,21 @@ public class PedidoResource {
 				.collect(Collectors.toList());
 
 		return new ResponseEntity<>(dto, HttpStatus.OK);
+	}
+	
+	@GetMapping("/pedido/{idCliente}")
+	public ResponseEntity<?> getPedidosPorCliente(@PathVariable Long idCliente) throws ClienteException{
+		
+		Cliente cliente = clienteRepository.findById(idCliente).orElseThrow(() -> new ClienteException("Cliente não cadastrado"));
+		
+		List<Pedido> pedidos = cliente.getPedidos();
+		List<PedidoDetalheDTO> dtos = new ArrayList<>();
+		
+		for(Pedido p : pedidos) {
+			dtos.add(new PedidoDetalheDTO(p));
+		}
+		
+		return new ResponseEntity<>(dtos, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Pesquisa de pedidos por código")

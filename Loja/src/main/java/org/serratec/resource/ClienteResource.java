@@ -1,6 +1,7 @@
 package org.serratec.resource;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
@@ -50,6 +51,19 @@ public class ClienteResource {
 		return new ResponseEntity<>("Cliente cadastrado com Sucesso", HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "Pesquisa de cliente por id.")
+	@GetMapping("/cliente/{id}")
+	public ResponseEntity<?> getClientesPorId(@PathVariable Long id) throws ClienteException{
+		
+		Optional<Cliente> cliente = clienteRepository.findById(id);
+		
+		if(cliente.isEmpty()) {
+			return  new ResponseEntity<>("Cliente com id " + id + " não foi encontrado.", HttpStatus.NOT_FOUND);
+		}
+        
+    		return  new ResponseEntity<>(cliente, HttpStatus.OK);		
+	}
+	
 	@ApiOperation(value = "Pesquisa de clientes geral e por nome.")
 	@GetMapping("/cliente")
 	public ResponseEntity<?> getClientesPorNome(@RequestParam(required = false) String nome) throws ClienteException{
@@ -67,11 +81,24 @@ public class ClienteResource {
     		return  new ResponseEntity<>(cliente, HttpStatus.OK);		
 	}	
 	
+	@ApiOperation(value = "Pesquisa de cliente por id.")
+    @GetMapping("/cliente/{id}")
+    public ResponseEntity<?> getClientesPorId(@PathVariable Long id) throws ClienteException{
+
+        Optional<Cliente> cliente = clienteRepository.findById(id);
+
+        if(cliente.isEmpty()) {
+            return  new ResponseEntity<>("Cliente com id " + id + " não foi encontrado.", HttpStatus.NOT_FOUND);
+        }
+
+            return  new ResponseEntity<>(cliente, HttpStatus.OK);
+    }
+	
 	@ApiOperation(value = "Alteração de clientes.")
 	@PutMapping("/cliente/{id}")
-	public ResponseEntity<?> update(@PathVariable String cpf, @RequestBody ClienteCadastroDTO dto ) throws ClienteException{
+	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody ClienteCadastroDTO dto ) throws ClienteException{
 		
-		Cliente cliente = clienteRepository.findByCpf(cpf).orElseThrow(() -> new ClienteException ("Cliente não encontrado"));
+		Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> new ClienteException ("Cliente não encontrado"));
 		
 		cliente.setNome(dto.getNome());
 		cliente.setDataNascimento(dto.getDataNascimento());
@@ -83,7 +110,7 @@ public class ClienteResource {
 		
 		clienteRepository.save(cliente);
 		
-		return new  ResponseEntity<>("Cliente alterado com sucesso",HttpStatus.OK);		
+		return new  ResponseEntity<>("Cliente alterado com sucesso", HttpStatus.OK);		
 	}
 	
 	@ApiOperation(value = "Alteração de status de cadastro do cliente.")
@@ -104,7 +131,7 @@ public class ClienteResource {
 		
 		Cliente cliente = dto.toCliente(clienteRepository);
 		
-		emailService.enviar("Olá, você solicitou a recuperação de email. Poderá ser feito pelo seguinte link: localhost:8080/cliente/recuperacao", cliente.getNome(),
+		emailService.enviar("Olá, você solicitou a recuperação de email. Poderá ser feito pelo seguinte link: http://localhost:3000/alterar-senha", cliente.getNome(),
 				cliente.getEmail());
 		
 		return new ResponseEntity<>("As instruções para a recuperação da senha foram enviadas para o seu email", HttpStatus.OK);

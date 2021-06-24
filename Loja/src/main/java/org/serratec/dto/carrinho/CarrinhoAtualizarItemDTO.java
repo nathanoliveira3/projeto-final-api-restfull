@@ -12,14 +12,14 @@ import org.serratec.repository.ProdutoRepository;
 
 public class CarrinhoAtualizarItemDTO {
 
-	private String cpf;
+	private String usuario;
 	private String codigoProduto;
 	private Integer quantidade;
 	
 	public Carrinho toCarrinho(ClienteRepository clienteRepository, CarrinhoRepository carrinhoRepository)
 			throws ClienteException {
 
-		Cliente cliente = clienteRepository.findByCpf(this.cpf)
+		Cliente cliente = clienteRepository.findByUsuarioIgnoreCase(usuario)
 				.orElseThrow(() -> new ClienteException("Cliente não cadastrado."));
 
 		Carrinho carrinho = carrinhoRepository.findByCliente(cliente)
@@ -44,15 +44,14 @@ public class CarrinhoAtualizarItemDTO {
 		produtoCarrinho.setPreco(produto.getPreco());
 
 		return produtoCarrinho;
+	}	
+
+	public String getUsuario() {
+		return usuario;
 	}
 
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 
 	public String getCodigoProduto() {
