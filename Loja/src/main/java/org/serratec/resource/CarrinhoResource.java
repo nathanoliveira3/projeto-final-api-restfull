@@ -16,6 +16,7 @@ import org.serratec.exceptions.ClienteException;
 import org.serratec.exceptions.ProdutoException;
 import org.serratec.model.Carrinho;
 import org.serratec.model.CarrinhoProduto;
+import org.serratec.model.Cliente;
 import org.serratec.model.Pedido;
 import org.serratec.model.PedidoProduto;
 import org.serratec.repository.CarrinhoRepository;
@@ -64,7 +65,7 @@ public class CarrinhoResource {
 			Carrinho carrinho = dto.toCarrinho(clienteRepository, carrinhoRepository);
 
 			for (CarrinhoProduto i : carrinho.getProdutos()) {
-				if (i.getProduto().getCodigo().equals(dto.getCodigoProduto())) {
+				if (i.getProduto().getCodigo().equalsIgnoreCase(dto.getCodigoProduto())) {
 					if (dto.getQuantidade() == 0) {
 						carrinho.getProdutos().remove(i);
 					} else {
@@ -122,8 +123,18 @@ public class CarrinhoResource {
 		return new ResponseEntity<>(carrinho.get(), HttpStatus.OK);
 	}
 	
+	@GetMapping("carrinho/{idCliente}")
+	public ResponseEntity<?> getCarrinhoPorCliente(@PathVariable Long idCliente) throws ClienteException, CarrinhoException{
+		Cliente cliente = clienteRepository.findById(idCliente).orElseThrow(() -> new ClienteException("Cliente não cadastrado"));
+		
+		Carrinho carrinho = carrinhoRepository.findByCliente(cliente).orElseThrow(() -> new CarrinhoException("Carrinho vazio"));
+		
+		return new ResponseEntity<>(new CarrinhoDTO(carrinho), HttpStatus.OK);
+		
+	}
+	
 	@ApiOperation(value = "Finalizar carrinho e fechar pedido.")
-	@PostMapping("/carrinho/finalizar")
+	@PostMapping("/carrinho")
 	public ResponseEntity<?> finalizarCarrinho(@RequestBody CarrinhoFinalizarDTO dto) {
 
 		try {

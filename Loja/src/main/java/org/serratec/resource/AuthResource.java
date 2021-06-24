@@ -2,6 +2,9 @@ package org.serratec.resource;
 
 import org.serratec.dto.LoginDTO;
 import org.serratec.dto.TokenDTO;
+import org.serratec.exceptions.ClienteException;
+import org.serratec.model.Cliente;
+import org.serratec.repository.ClienteRepository;
 import org.serratec.security.services.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,9 +30,12 @@ public class AuthResource {
 	@Autowired
 	private TokenService tokenService;	
 	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
 	@ApiOperation(value = "Envio de Usuário e Senha para Login")
 	@PostMapping("/auth")
-	public ResponseEntity<?> auth(@RequestBody @Validated LoginDTO loginDTO){
+	public ResponseEntity<?> auth(@RequestBody @Validated LoginDTO loginDTO) throws ClienteException{
 		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getUser(), loginDTO.getPass());
 		
 		Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
@@ -39,7 +45,12 @@ public class AuthResource {
 		TokenDTO tokenDTO = new TokenDTO();
 		tokenDTO.setToken(token);
 		tokenDTO.setType("Bearer");
-		tokenDTO.setUser(loginDTO.getUser());
+		
+		Cliente cliente = clienteRepository.findByUsuarioIgnoreCase(loginDTO.getUser())
+				.orElseThrow(() -> new ClienteException("Cliente não cadastrado"));
+		tokenDTO.setIdCliente(cliente.getId());
+		tokenDTO.setUser(cliente.getUsername());
+		tokenDTO.setNome(cliente.getNome());
 		
 		return new ResponseEntity<>(tokenDTO, HttpStatus.OK);		
 	}

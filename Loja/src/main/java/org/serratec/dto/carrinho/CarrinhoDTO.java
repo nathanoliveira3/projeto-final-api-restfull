@@ -10,18 +10,26 @@ import org.serratec.model.Produto;
 public class CarrinhoDTO {
 	private String cliente;
 	private String codigo;
-	private List<Produto> produtos = new ArrayList<>();
-	
+	private Double valor;
+	private List<CarrinhoProduto> produtos = new ArrayList<>();
 
 	public CarrinhoDTO(Carrinho carrinho) {
 		this.cliente = carrinho.getCliente().getNome();
 		this.codigo = carrinho.getCodigo();
-		
-		for(CarrinhoProduto p : carrinho.getProdutos()) {
-			produtos.add(p.getProduto());
+		this.valor = carrinho.getValorTotal();
+
+		for (CarrinhoProduto p : carrinho.getProdutos()) {
+			produtos.add(p);
 		}
 	}
-	
+
+	public Double getValor() {
+		return valor;
+	}
+
+	public void setValor(Double valor) {
+		this.valor = valor;
+	}
 
 	public String getCliente() {
 		return cliente;
@@ -31,8 +39,6 @@ public class CarrinhoDTO {
 		this.cliente = cliente;
 	}
 
-
-
 	public String getCodigo() {
 		return codigo;
 	}
@@ -41,11 +47,11 @@ public class CarrinhoDTO {
 		this.codigo = codigo;
 	}
 
-	public List<Produto> getProdutos() {
+	public List<CarrinhoProduto> getProdutos() {
 		return produtos;
 	}
 
-	public void setProdutos(List<Produto> produtos) {
+	public void setProdutos(List<CarrinhoProduto> produtos) {
 		this.produtos = produtos;
 	}
 
