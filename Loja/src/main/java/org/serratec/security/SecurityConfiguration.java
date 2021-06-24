@@ -60,6 +60,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         	.antMatchers(HttpMethod.POST, "/cliente").permitAll()
         	.antMatchers(HttpMethod.POST, "/endereco").permitAll()
         	.antMatchers(HttpMethod.GET, "/cliente").permitAll()
+        	.antMatchers(HttpMethod.POST, "/cliente/email").permitAll()
         	.anyRequest().authenticated()
         	.and().cors().and().csrf().disable()
         	.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -83,9 +83,9 @@ public class ClienteResource {
 	
 	@ApiOperation(value = "Alteração de clientes.")
 	@PutMapping("/cliente/{id}")
-	public ResponseEntity<?> update(@PathVariable String cpf, @RequestBody ClienteCadastroDTO dto ) throws ClienteException{
+	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody ClienteCadastroDTO dto ) throws ClienteException{
 		
-		Cliente cliente = clienteRepository.findByCpf(cpf).orElseThrow(() -> new ClienteException ("Cliente não encontrado"));
+		Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> new ClienteException ("Cliente não encontrado"));
 		
 		cliente.setNome(dto.getNome());
 		cliente.setDataNascimento(dto.getDataNascimento());
@@ -97,7 +97,7 @@ public class ClienteResource {
 		
 		clienteRepository.save(cliente);
 		
-		return new  ResponseEntity<>("Cliente alterado com sucesso",HttpStatus.OK);		
+		return new  ResponseEntity<>("Cliente alterado com sucesso", HttpStatus.OK);		
 	}
 	
 	@ApiOperation(value = "Alteração de status de cadastro do cliente.")
