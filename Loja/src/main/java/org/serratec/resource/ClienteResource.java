@@ -1,6 +1,7 @@
 package org.serratec.resource;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
@@ -67,11 +68,24 @@ public class ClienteResource {
     		return  new ResponseEntity<>(cliente, HttpStatus.OK);		
 	}	
 	
+	@ApiOperation(value = "Pesquisa de cliente por id.")
+    @GetMapping("/cliente/{id}")
+    public ResponseEntity<?> getClientesPorId(@PathVariable Long id) throws ClienteException{
+
+        Optional<Cliente> cliente = clienteRepository.findById(id);
+
+        if(cliente.isEmpty()) {
+            return  new ResponseEntity<>("Cliente com id " + id + " não foi encontrado.", HttpStatus.NOT_FOUND);
+        }
+
+            return  new ResponseEntity<>(cliente, HttpStatus.OK);
+    }
+	
 	@ApiOperation(value = "Alteração de clientes.")
 	@PutMapping("/cliente/{id}")
-	public ResponseEntity<?> update(@PathVariable String cpf, @RequestBody ClienteCadastroDTO dto ) throws ClienteException{
+	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody ClienteCadastroDTO dto ) throws ClienteException{
 		
-		Cliente cliente = clienteRepository.findByCpf(cpf).orElseThrow(() -> new ClienteException ("Cliente não encontrado"));
+		Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> new ClienteException ("Cliente não encontrado"));
 		
 		cliente.setNome(dto.getNome());
 		cliente.setDataNascimento(dto.getDataNascimento());

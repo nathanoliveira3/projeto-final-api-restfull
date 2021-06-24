@@ -11,7 +11,7 @@ public class CarrinhoDTO {
 	private String cliente;
 	private String codigo;
 	private Double valor;
-	private List<CarrinhoProduto> produtos = new ArrayList<>();
+	private List<Produto> produtos = new ArrayList<>();
 
 	public CarrinhoDTO(Carrinho carrinho) {
 		this.cliente = carrinho.getCliente().getNome();
@@ -19,7 +19,7 @@ public class CarrinhoDTO {
 		this.valor = carrinho.getValorTotal();
 
 		for (CarrinhoProduto p : carrinho.getProdutos()) {
-			produtos.add(p);
+			produtos.add(p.getProduto());
 		}
 	}
 
@@ -47,11 +47,11 @@ public class CarrinhoDTO {
 		this.codigo = codigo;
 	}
 
-	public List<CarrinhoProduto> getProdutos() {
+	public List<Produto> getProdutos() {
 		return produtos;
 	}
 
-	public void setProdutos(List<CarrinhoProduto> produtos) {
+	public void setProdutos(List<Produto> produtos) {
 		this.produtos = produtos;
 	}
 

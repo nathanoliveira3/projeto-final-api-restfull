@@ -134,7 +134,7 @@ public class CarrinhoResource {
 	}
 	
 	@ApiOperation(value = "Finalizar carrinho e fechar pedido.")
-	@PostMapping("/carrinho")
+	@PostMapping("/carrinho/finalizar")
 	public ResponseEntity<?> finalizarCarrinho(@RequestBody CarrinhoFinalizarDTO dto) {
 
 		try {
@@ -169,7 +169,7 @@ public class CarrinhoResource {
 				e.printStackTrace();
 			}
 
-			return new ResponseEntity<>(pedido, HttpStatus.OK);
+			return new ResponseEntity<>("Recebemos o seu pedido", HttpStatus.OK);
 
 		} catch (CarrinhoException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

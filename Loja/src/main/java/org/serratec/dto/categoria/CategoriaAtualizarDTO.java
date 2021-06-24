@@ -2,8 +2,7 @@ package org.serratec.dto.categoria;
 
 public class CategoriaAtualizarDTO {
 
-	private String nome;
-	private String codigo;
+	private String nome;	
 	private String descricao;
 	
 	public String getNome() {
@@ -12,7 +11,5 @@ public class CategoriaAtualizarDTO {
 	public String getDescricao() {
 		return descricao;
 	}
-	public String getCodigo() {
-		return codigo;
-	}
+	
 }
