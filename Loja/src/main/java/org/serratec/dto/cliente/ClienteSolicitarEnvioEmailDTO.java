@@ -6,20 +6,20 @@ import org.serratec.repository.ClienteRepository;
 
 public class ClienteSolicitarEnvioEmailDTO {
 	
-	private String cpf;
+	private String email;
 	
 	public Cliente toCliente(ClienteRepository clienteRepository) throws ClienteException {
-		Cliente cliente = clienteRepository.findByCpf(this.cpf)
+		Cliente cliente = clienteRepository.findByEmail(this.email)
 				.orElseThrow(() -> new ClienteException("Cliente não cadastrado."));
 
 		return cliente;
 	}
 
-	public String getCpf() {
-		return cpf;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	public void setCpf(String email) {
+		this.email = email;
 	}	
 }
