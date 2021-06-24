@@ -118,7 +118,7 @@ public class ClienteResource {
 		
 		Cliente cliente = dto.toCliente(clienteRepository);
 		
-		emailService.enviar("Olá, você solicitou a recuperação de email. Poderá ser feito pelo seguinte link: localhost:8080/cliente/recuperacao", cliente.getNome(),
+		emailService.enviar("Olá, você solicitou a recuperação de email. Poderá ser feito pelo seguinte link: http://localhost:3000/alterar-senha", cliente.getNome(),
 				cliente.getEmail());
 		
 		return new ResponseEntity<>("As instruções para a recuperação da senha foram enviadas para o seu email", HttpStatus.OK);
