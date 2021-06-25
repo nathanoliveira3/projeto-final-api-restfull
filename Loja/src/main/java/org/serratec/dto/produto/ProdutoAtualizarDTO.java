@@ -10,7 +10,7 @@ public class ProdutoAtualizarDTO {
 	private Double preco;
 	private Integer quantidade;
 	private String imagem;
-	private CategoriaAtualizarDTO categoria;
+	private String categoria;
 	
 	public String getCodigo() {
 		return codigo;
@@ -30,7 +30,7 @@ public class ProdutoAtualizarDTO {
 	public String getImagem() {
 		return imagem;
 	}
-	public CategoriaAtualizarDTO getCategoria() {
+	public String getCategoria() {
 		return categoria;
 	}
 	
