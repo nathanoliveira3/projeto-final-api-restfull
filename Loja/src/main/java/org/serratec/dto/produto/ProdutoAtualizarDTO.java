@@ -1,6 +1,5 @@
 package org.serratec.dto.produto;
 
-import org.serratec.dto.categoria.CategoriaAtualizarDTO;
 
 public class ProdutoAtualizarDTO {
 
@@ -12,6 +11,7 @@ public class ProdutoAtualizarDTO {
 	private String imagem;
 	private String categoria;
 	
+		
 	public String getCodigo() {
 		return codigo;
 	}

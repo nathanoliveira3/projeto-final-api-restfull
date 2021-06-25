@@ -39,7 +39,7 @@ public class Produto {
 	private LocalDate dataCadastro;
 	private String imagem;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	private Categoria categoria;
 
 	public Long getId() {

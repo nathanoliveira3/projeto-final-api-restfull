@@ -1,6 +1,7 @@
 package org.serratec.resource;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.serratec.dto.categoria.CategoriaAtualizarDTO;
@@ -8,7 +9,7 @@ import org.serratec.dto.categoria.CategoriaDTO;
 import org.serratec.dto.categoria.CategoriaDeletarDTO;
 import org.serratec.exceptions.CategoriaException;
 import org.serratec.model.Categoria;
-import org.serratec.repository.CategoriaRepositry;
+import org.serratec.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ import io.swagger.annotations.ApiOperation;
 public class CategoriaResource {
 	
 	@Autowired
-	private CategoriaRepositry categoriaRepository;
+	private CategoriaRepository categoriaRepository;
 	
 	@ApiOperation(value = "Pesquisa de categorias geral e por nome.")
 	@GetMapping("/categoria")
@@ -50,14 +51,18 @@ public class CategoriaResource {
 	
 	@GetMapping("/categoria/{id}")
 	public ResponseEntity<?> getCategoriaPorId(@PathVariable Long id) throws CategoriaException{
-		Categoria categoria = categoriaRepository.findById(id)
-				.orElseThrow(() -> new CategoriaException("Categoria não cadastrada"));
+		Optional<Categoria> optional = categoriaRepository.findById(id);
 		
-		return new ResponseEntity<>(categoria, HttpStatus.OK);
+		if(optional.isEmpty()) {
+			throw new CategoriaException("Categoria não cadastrada");
+		}
+				
+		
+		return new ResponseEntity<>(optional.get(), HttpStatus.OK);
 	}
 	
-	@GetMapping("/categoria/{nome}")
-	public ResponseEntity<?> getCategoriaPorId(@PathVariable String nome) throws CategoriaException{
+	@GetMapping("/categoria/por-nome/{nome}")
+	public ResponseEntity<?> getCategoriaPorNome(@PathVariable String nome) throws CategoriaException{
 		Categoria categoria = categoriaRepository.findByNomeContainingIgnoreCase(nome)
 				.orElseThrow(() -> new CategoriaException("Categoria não cadastrada"));
 		

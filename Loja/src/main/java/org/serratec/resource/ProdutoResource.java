@@ -8,9 +8,11 @@ import org.serratec.dto.produto.ProdutoAtualizarDTO;
 import org.serratec.dto.produto.ProdutoCadastrarDTO;
 import org.serratec.dto.produto.ProdutoDeletarDTO;
 import org.serratec.dto.produto.ProdutoDetalheDTO;
+import org.serratec.exceptions.CategoriaException;
 import org.serratec.exceptions.ProdutoException;
 import org.serratec.model.Categoria;
 import org.serratec.model.Produto;
+import org.serratec.repository.CategoriaRepository;
 import org.serratec.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,11 +39,14 @@ public class ProdutoResource {
 	@Autowired
 	private ProdutoRepository produtoRepository;
 	
+	@Autowired
+	private CategoriaRepository categoriaRepository;
+	
 	@ApiOperation(value = "Cadastro de produtos.")
 	@PostMapping("/produto")
-	public ResponseEntity<?> postProduto(@Validated @RequestBody ProdutoCadastrarDTO dto) throws ProdutoException{
+	public ResponseEntity<?> postProduto(@RequestBody ProdutoCadastrarDTO dto) throws ProdutoException, CategoriaException{
 		
-		Produto produto = dto.toProduto();
+		Produto produto = dto.toProduto(categoriaRepository);
 		produtoRepository.save(produto);
 		return new ResponseEntity<>("Produto cadastrado com Sucesso", HttpStatus.OK);
 	}
@@ -82,7 +87,7 @@ public class ProdutoResource {
 	
 	@ApiOperation(value = "Alteração de produto.")
     @PutMapping("/produto/{id}")
-    public ResponseEntity<?> putProduto(@PathVariable Long id, @RequestBody ProdutoAtualizarDTO dto) throws ProdutoException {
+    public ResponseEntity<?> putProduto(@PathVariable Long id, @RequestBody ProdutoAtualizarDTO dto) throws ProdutoException, CategoriaException {
 		
 		Produto produto = produtoRepository.findById(id)
 				.orElseThrow(() -> new ProdutoException("Produto não encontrado."));
@@ -91,7 +96,13 @@ public class ProdutoResource {
 		produto.setNome(dto.getNome());
 		produto.setPreco(dto.getPreco());
 		produto.setEstoque(dto.getQuantidade());
-		produto.setCategoria(new Categoria());
+		produto.setImagem(dto.getImagem());
+		
+		Categoria categoria = categoriaRepository.findByNome(dto.getCategoria())
+				.orElseThrow(() -> new CategoriaException("Categoria não cadastrada"));
+					
+		
+		produto.setCategoria(categoria);
 		
 		produtoRepository.save(produto);
 		
@@ -104,7 +115,7 @@ public class ProdutoResource {
         Produto produto = produtoRepository.findById(id)
         		.orElseThrow(() -> new ProdutoException("Produto não cadastrado."));    
 
-        produtoRepository.delete(produto);
+        produtoRepository.deleteById(id);
         
        return new ResponseEntity<>("Produto deletado com sucesso!", HttpStatus.OK);
     }
