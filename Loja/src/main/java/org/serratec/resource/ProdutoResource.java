@@ -81,10 +81,11 @@ public class ProdutoResource {
 	}
 	
 	@ApiOperation(value = "Alteração de produto.")
-    @PutMapping("/produto")
-    public ResponseEntity<?> putProduto(@RequestBody ProdutoAtualizarDTO dto) throws ProdutoException {
+    @PutMapping("/produto/{id}")
+    public ResponseEntity<?> putProduto(@PathVariable Long id, @RequestBody ProdutoAtualizarDTO dto) throws ProdutoException {
 		
-		Produto produto = produtoRepository.findByCodigo(dto.getCodigo()).orElseThrow(() -> new ProdutoException("Produto não encontrado."));
+		Produto produto = produtoRepository.findById(id)
+				.orElseThrow(() -> new ProdutoException("Produto não encontrado."));
 		
 		produto.setDataCadastro(LocalDate.now());
 		produto.setNome(dto.getNome());
@@ -98,9 +99,9 @@ public class ProdutoResource {
     } 
     
 	@ApiOperation(value = "Exclusão de produto.")
-    @DeleteMapping("/produto")
-    public ResponseEntity<?> deleteProduto(@RequestBody ProdutoDeletarDTO dto) throws ProdutoException {
-        Produto produto = produtoRepository.findByCodigo(dto.getCodigo())
+    @DeleteMapping("/produto/{id}")
+    public ResponseEntity<?> deleteProduto(@PathVariable Long id) throws ProdutoException {
+        Produto produto = produtoRepository.findById(id)
         		.orElseThrow(() -> new ProdutoException("Produto não cadastrado."));    
 
         produtoRepository.delete(produto);
