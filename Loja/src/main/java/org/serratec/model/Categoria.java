@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Categoria {
@@ -16,7 +17,8 @@ public class Categoria {
 	@Column(unique = true)
 	private String codigo;
 	private String nome;
-	private String descricao;
+	private String descricao;	
+	
 
 	public Long getId() {
 		return id;
