@@ -8,7 +8,6 @@
 
 Repositório para o trabalho final da disciplina API Restful da Residência em Software/TIC do Serratec. Onde foi desenvolvido uma API para E-Commerce.
 
----
 
 ## ⚙️ Funcionalidades
 
@@ -48,7 +47,7 @@ Repositório para o trabalho final da disciplina API Restful da Residência em S
 ### Desafio Extra:
  
 - [x] Criar uma opção de esqueci minha senha com envio de um código de verificação para o e-mail e posterior verificação se esse código pertence ao cliente.
----
+
 
 ## 🚀 Como executar o projeto
 
@@ -68,7 +67,7 @@ $ git clone https://github.com/nathanoliveira3/trabalho_final_API_restfull.git
 # Abra o projeto na sua IDE e execute o código 
 
 ```
----
+
 
 ## 🛠 Tecnologias
 
@@ -77,7 +76,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - Java
 - Spring Boot
 - Spring Security
----
+
 
 ## 👨‍💻 Equipe
 
