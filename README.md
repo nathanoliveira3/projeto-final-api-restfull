@@ -1,7 +1,16 @@
-# trabalho_final_API_restfull
-Repositório para o trabalho final da disciplina API Restful da Residência em Software/TIC  do Serratec
+</p>
+<h1 align="center">
+    API Restful E-commerce
+</h1>
 
-## Seu grupo deve criar um aplicativo de E-Commerce atendendo os seguintes requisitos:
+
+## 💻 Sobre o projeto
+
+Repositório para o trabalho final da disciplina API Restful da Residência em Software/TIC do Serratec. Onde foi desenvolvido uma API para E-Commerce.
+
+---
+
+## ⚙️ Funcionalidades
 
 - [x] 01 - Utilizar um sistema de login.(JWT)
 - [x] 02 - Um Cliente poderá se cadastrar livremente.
@@ -16,7 +25,7 @@ Repositório para o trabalho final da disciplina API Restful da Residência em S
 - [x] 11 - Visualizar todas as categorias ou uma específica pelo nome.
 - [x] 12 - Visualizar todos os produtos ou um específico pelo nome.
 
-## Recursos que devem estar disponíveis sem o usuário estar logado no sistema:
+### Recursos que devem estar disponíveis sem o usuário estar logado no sistema:
 
 - [x] Visualizar todas as categorias ou uma específica pelo nome.
 - [x] Criar uma nova categoria.
@@ -29,18 +38,55 @@ Repositório para o trabalho final da disciplina API Restful da Residência em S
 - [x] Visualizar todos os pedidos.
 - [x] Excluir algum pedido.
 
-## Observações:
+### Observações:
 
 - [x] CPF deve ser válido.
 - [x] Produto não poderá ter valores negativos
 - [x] Todas as exceptions devem ser tratadas
 - [x] A Api deverá utilizar como documentação a ferramenta do Swagger.
 
-## Desafio Extra (Opcional):
+### Desafio Extra:
  
 - [x] Criar uma opção de esqueci minha senha com envio de um código de verificação para o e-mail e posterior verificação se esse código pertence ao cliente.
+---
 
-## Regras: 
+## 🚀 Como executar o projeto
 
-- Ser feito em grupo
-- Utilizar GIT
+### Pré-requisitos
+
+Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
+[Git](https://git-scm.com), [Eclipse](https://www.eclipse.org/downloads/) ou qualquer outra IDE Java.
+
+
+#### 🎲 Rodando a API
+
+```bash
+
+# Clone este repositório
+$ git clone https://github.com/nathanoliveira3/trabalho_final_API_restfull.git
+
+# Abra o projeto na sua IDE e execute o código 
+
+```
+---
+
+## 🛠 Tecnologias
+
+As seguintes ferramentas foram usadas na construção do projeto:
+
+- Java
+- Spring Boot
+- Spring Security
+---
+
+## 👨‍💻 Equipe
+
+- Nathan - https://github.com/nathanoliveira3
+- Vinícius - https://github.com/VGSiqueira
+- Matheus - https://github.com/matheus-mr94
+- Diego - https://github.com/Diego-Chirico
+- Rafael - https://github.com/RMStorck
+- Bernardo - https://github.com/BernardoWaldhelm
+- Dany - https://github.com/bluejynz
+- Yago - https://github.com/YagoPicoli
+
